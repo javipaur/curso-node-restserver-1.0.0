@@ -1,4 +1,5 @@
 const {response,request} = require('express')
+const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
 const URLS = {
@@ -9,7 +10,7 @@ const URLS = {
     jimmyjazzgasteiz: 'https://jimmyjazzgasteiz.com/es/agenda-conciertos-y-djs/'
 
   }
-  async function scrape (url) {
+  const scrape= async (url)=> {
     const res = await fetch(url)
     const html = await res.text()
     return cheerio.load(html)
@@ -62,7 +63,7 @@ const farmaciasGet= async (req=request,res=response)=>{
 
 const cinesFloridaGet= async (req=request,res=response)=>{
     try {
-        const $ = await scrape(URLS.cinesFLorida).catch( e => { console.error(e ) })
+        const $ = await scrape(URLS.cinesFLorida)
         const $rows = $('#cartelera0 #pelicula')
 
         const cinesFloridaBoard = []
@@ -89,7 +90,7 @@ const cinesFloridaGet= async (req=request,res=response)=>{
 
 const cinesBoulevardGet= async (req=request,res=response)=>{
    try {
-    const $ = await scrape(URLS.cinesBoulevard).catch( e => { console.error(e ) })
+    const $ = await scrape(URLS.cinesBoulevard)
     const $rows = $('.entity-card-list')
 
     const cinesBoulevardBoard = []
